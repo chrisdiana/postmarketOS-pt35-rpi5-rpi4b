@@ -174,8 +174,8 @@ echo ""
 echo "==> 5.7: I2C/RP2040 keyboard"
 
 echo "i2c-dev" | sudo tee "$ROOT_MNT/etc/modules-load.d/i2c-dev.conf" > /dev/null
-sudo chroot "$ROOT_MNT" /bin/sh -c 'apk add --quiet i2c-tools 2>/dev/null || true' 2>/dev/null || true
-sudo chroot "$ROOT_MNT" /bin/sh -c 'apk add --quiet growpart parted e2fsprogs 2>/dev/null || true' 2>/dev/null || true
+sudo chroot "$ROOT_MNT" /bin/sh -c 'apk add --quiet --no-interactive i2c-tools 2>/dev/null || true' 2>/dev/null || true
+sudo chroot "$ROOT_MNT" /bin/sh -c 'apk add --quiet --no-interactive growpart parted e2fsprogs 2>/dev/null || true' 2>/dev/null || true
 
 # ============================================================
 # 8. Systemd powersave service
@@ -183,6 +183,7 @@ sudo chroot "$ROOT_MNT" /bin/sh -c 'apk add --quiet growpart parted e2fsprogs 2>
 echo ""
 echo "==> 5.8: Systemd powersave.service"
 
+sudo mkdir -p "$ROOT_MNT/etc/systemd/system"
 sudo tee "$ROOT_MNT/etc/systemd/system/powersave.service" > /dev/null << 'EOF'
 [Unit]
 Description=PocketTerm35 CPU Powersave (against undervoltage)
@@ -205,6 +206,7 @@ sudo chroot "$ROOT_MNT" systemctl enable powersave 2>/dev/null || true
 echo ""
 echo "==> 5.9: First-boot partition resize service"
 
+sudo mkdir -p "$ROOT_MNT/usr/local/sbin" "$ROOT_MNT/etc/systemd/system"
 sudo tee "$ROOT_MNT/usr/local/sbin/resize-rootfs.sh" > /dev/null << 'SCRIPTEOF'
 #!/bin/sh
 if [ -f /etc/resize-rootfs-done ]; then
