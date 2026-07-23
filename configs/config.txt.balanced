@@ -1,0 +1,32 @@
+# PocketTerm35 RPi4 - Balanced profile (default)
+# Good balance between performance and stability
+
+# === PocketTerm35 hardware ===
+dtparam=i2c_arm=on
+dtoverlay=waveshare-35dpi-4b
+dtoverlay=dwc2,dr_mode=host
+dtoverlay=vc4-fkms-v3d
+gpu_mem=128
+
+# === Display 640x480 ===
+disable_overscan=1
+framebuffer_width=640
+framebuffer_height=480
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt=640 480 60 6 0 0 0
+
+# === Power profile ===
+# Stock Pi 4 clock; stable with a good 5V/3A supply.
+arm_freq=1500
+core_freq=500
+gpu_freq=400
+v3d_freq=400
+over_voltage=0
+temp_limit=80
+avoid_warnings=1
+
+# === USB power ===
+max_usb_current=1
+usb_max_current=1
